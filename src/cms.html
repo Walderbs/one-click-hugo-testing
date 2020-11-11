@@ -9,6 +9,30 @@
   <script src="https://identity-js.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
+  
+  <div data-netlify-identity-menu></div>
+
+  <!-- Add a simpler button:
+    Simple button that will open the modal.
+  -->
+  <div data-netlify-identity-button>Login with Netlify Identity</div>
+  
   <script src="<%= htmlWebpackPlugin.files.chunks.cms.entry %>"></script>
+  <script>
+    // Open the modal
+    netlifyIdentity.open();
+
+    // Get the current user:
+    // Available after on('init') is invoked
+    const user = netlifyIdentity.currentUser();
+
+    // Bind to events
+    netlifyIdentity.on('init', user => console.log('init', user));
+    netlifyIdentity.on('login', user => console.log('login', user));
+    netlifyIdentity.on('logout', () => console.log('Logged out'));
+    netlifyIdentity.on('error', err => console.error('Error', err));
+    netlifyIdentity.on('open', () => console.log('Widget opened'));
+    netlifyIdentity.on('close', () => console.log('Widget closed'));
+  </script>
 </body>
 </html>
